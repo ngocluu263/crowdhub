@@ -6,3 +6,4 @@ urlpatterns = [
     url(r'^users/', include('users.urls')),
     url(r'^tasks/', include('tasks.urls')),
 ]
+
