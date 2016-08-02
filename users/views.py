@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login as login_user
+from django.contrib.auth import authenticate, logout as logout_user, login as login_user
+
+
+def register(request):
+    """Register form."""
+    return render(request, 'users/profile.html', {})
 
 
 def login(request):
@@ -31,3 +36,11 @@ def login(request):
 def profile(request):
     """Users profile view."""
     return render(request, 'users/profile.html', {})
+
+
+@login_required
+def logout(request):
+    """Logouts user"""
+    logout_user(request)
+    return redirect("/users/login")
+

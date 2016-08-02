@@ -1,8 +1,10 @@
 from django.conf.urls import url
 
-from users.views import login, profile
+from users import views
 
 urlpatterns = [
-    url(r'users/login', login),
-    url(r'users/profile', profile),
+    url(r'users/login', views.login),
+    url(r'users/logout', views.logout),
+    url(r'users/register', views.register),
+    url(r'users/profile', views.profile),
 ]
