@@ -1,16 +1,17 @@
 from mongoengine import Document
-from mongoengine.fields import IntField, DictField
+from mongoengine.fields import IntField, DictField, ListField
 
-from tasks.models import Task
+import tasks
 
 
 class Item(Document):
     task_id = IntField()
     data = DictField()
+    annotations = ListField()
 
     @property
     def task(self):
-        return Task.objects.get(id=self.task_id)
+        return tasks.models.Task.objects.get(id=self.task_id)
 
 
 class Annotation(Document):
@@ -20,5 +21,5 @@ class Annotation(Document):
 
     @property
     def task(self):
-        return Item.objects.get(id=self.item_id)
+        return tasks.models.Item.objects.get(id=self.item_id)
 
