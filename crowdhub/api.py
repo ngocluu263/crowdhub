@@ -10,7 +10,7 @@ class BaseListView(generics.ListAPIView):
     serializer_class = None
 
 
-class BaseCreateListView(generics.CreateAPIView):
+class BaseCreateListView(generics.ListCreateAPIView):
     authentication_classes = AUTH_AUTHENTICATION_CLASSES
     permission_classes = AUTH_PERMISSION_CLASSES
     queryset = []
