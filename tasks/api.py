@@ -5,7 +5,7 @@ from tasks.serializers import ProtocolSerializer, TaskSerializer, ItemSerializer
 from tasks.models.base import Protocol, Task
 from tasks.models.data import Item, Annotation
 
-from crowdhub.api import BaseListView, BaseDetailView, BaseCreateListView, BaseCreateDetailView
+from crowdhub.api import BaseListView, BaseDetailView, BaseCreateListView
 
 from utils.helpers import is_json
 import json
@@ -30,6 +30,9 @@ class ProtocolTasksList(BaseCreateListView):
         return Response(self.serializer_class(tasks, many=True).data)
 
     def post(self, request, pid, *args, **kwargs):
+        if not request.user.has_perm('crowdhub.can_add_task'):
+            return Response("This user has no permission to create new task.", status=status.HTTP_403_FORBIDDEN)
+
         protocol = Protocol.objects.get(id=pid)
 
         serializer = self.serializer_class(data=request.data)

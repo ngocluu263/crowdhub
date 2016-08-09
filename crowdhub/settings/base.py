@@ -43,8 +43,10 @@ EXTERNAL_APPS = [
 ]
 
 PROJECT_APPS = [
+    'crowdhub',
     'tasks',
     'users',
+    'permissions',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + PROJECT_APPS
