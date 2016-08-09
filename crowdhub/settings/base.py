@@ -47,6 +47,7 @@ PROJECT_APPS = [
     'tasks',
     'users',
     'permissions',
+    'client',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + PROJECT_APPS
@@ -136,3 +137,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+
+MEDIA_ROOT = "/home/heolin123/programming/python/crowdhub/media"
+MEDIA_URL = '/media/'
