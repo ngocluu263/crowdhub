@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('users.urls')),
     url(r'^', include('tasks.urls')),
+    url(r'^', include('clients.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

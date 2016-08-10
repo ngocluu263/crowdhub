@@ -47,7 +47,7 @@ PROJECT_APPS = [
     'tasks',
     'users',
     'permissions',
-    'client',
+    'clients',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + PROJECT_APPS
@@ -64,6 +64,14 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# Media
+
+MEDIA_ROOT = "/home/heolin123/programming/python/crowdhub/media"
+MEDIA_URL = '/media/'
+
+
+
 ROOT_URLCONF = 'crowdhub.urls'
 
 TEMPLATES = [
@@ -71,6 +79,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
                 os.path.join(BASE_DIR, 'templates'),
+                os.path.join(MEDIA_ROOT),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -83,6 +92,7 @@ TEMPLATES = [
         },
     },
 ]
+print TEMPLATES[0]['DIRS']
 
 WSGI_APPLICATION = 'crowdhub.wsgi.application'
 
@@ -137,7 +147,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-
-MEDIA_ROOT = "/home/heolin123/programming/python/crowdhub/media"
-MEDIA_URL = '/media/'

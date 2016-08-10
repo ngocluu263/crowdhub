@@ -1,6 +1,6 @@
-crowdhub.controller('tasksCtrl', function($scope, TasksList) {
+crowdhub.controller('tasksCtrl', function($scope, API) {
     $scope.getTasksList = function(){
-        TasksList.list({}, function(data){
+        API.TasksList.list({}, function(data){
             $scope.TasksList = data
         })
     }

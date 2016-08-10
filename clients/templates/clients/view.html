@@ -1,0 +1,12 @@
+{% extends "crowdhub/base.html" %}
+{% block content %}
+
+<div ng-app="crowdhub" ng-controller="clientsCtrl">
+    {% include client_index_path %}
+</div>
+
+{% load static %}
+<script src="{% static 'clients/js/services.js' %}"></script>
+<script src="{% static 'clients/js/controller_view.js' %}"></script>
+
+{% endblock %}

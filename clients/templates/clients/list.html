@@ -1,0 +1,22 @@
+{% extends "crowdhub/base.html" %}
+{% block content %}
+
+<div ng-app="crowdhub" ng-controller="clientsCtrl">
+    <table class="table table-striped">
+        <tr ng-repeat="client in ClientsList">
+            <td>[[client.id]]</td>
+            <td>[[client.name]]</td>
+            <td>[[client.package_name]]</td>
+            <td>[[client.created | date : "dd MM yyyy"]]</td>
+            <td>
+                <a href="/clients/[[client.id]]"><div class='btn btn-primary'>Start</div></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% load static %}
+<script src="{% static 'clients/js/services.js' %}"></script>
+<script src="{% static 'clients/js/controller_list.js' %}"></script>
+
+{% endblock %}api/clients/

@@ -1,5 +1,9 @@
-angular.module('crowdhub').factory('TasksList', function($resource) {
-    return $resource('/api/tasks',{},
-        {'list':{method:'GET', isArray:true}}
-    );
-});
+angular.module('crowdhub').factory('API', ['$resource',
+    function($resource) {
+        return {
+            TasksList: $resource('/api/tasks', {},
+                {'list':{method:'GET', isArray:true}}
+            ),
+        };
+    }
+]);
