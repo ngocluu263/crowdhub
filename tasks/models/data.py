@@ -14,6 +14,11 @@ class Annotation(Document):
     user_id = IntField()
     data = DictField()
 
+    def deletethis(self):
+        collection_name = ANNOTATIONS_COLLECTION.format(self.item.task.items_collection_name)
+        self.switch_collection(collection_name)
+        self.delete()
+
 
 class Item(Document):
     task_id = IntField()
@@ -26,14 +31,26 @@ class Item(Document):
         return None
 
 
-    def add_annotation(self, annotation, user_id):
-        annotation.item = self
-        annotation.user_id = user_id
+    def add_annotation(self, new_annotation, user_id):
+        created = False
+
+        if new_annotation.id:
+            annotation = self.annotations.filter(user_id=user_id, id=new_annotation.id)
+            if not annotation:
+                return None, False
+
+            annotation = annotation[0]
+            annotation.data = new_annotation.data
+        else:
+            annotation = new_annotation
+            annotation.item = self
+            annotation.user_id = user_id
+            created = True
 
         collection_name = ANNOTATIONS_COLLECTION.format(self.task.items_collection_name)
         annotation.switch_collection(collection_name)
         annotation.save()
-        return  annotation
+        return annotation, created
 
 
     @property

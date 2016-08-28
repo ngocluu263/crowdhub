@@ -4,5 +4,4 @@ crowdhub.controller('clientsCtrl', function($scope, API) {
             $scope.Client = data
         })
     }
-    $scope.getClient(2);
 });

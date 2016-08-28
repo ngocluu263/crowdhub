@@ -1,21 +1,15 @@
 {% extends "crowdhub/base.html" %}
-{% block content %}
 
-<div ng-app="crowdhub" ng-controller="tasksCtrl">
-    <table class="table table-striped">
-        <tr ng-repeat="task in TasksList">
-            <td>[[task.id]]</td>
-            <td>[[task.task_name]]</td>
-            <td>[[task.created | date : "dd MM yyyy"]]</td>
-            <td>
-                <a href="/tasks/[[task.id]]"><div class='btn btn-primary'>Start</div></a>
-            </td>
-        </tr>
-    </table>
-</div>
-
+{% block head %}
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'tasks/css/style.css' %}" />
+
 <script src="{% static 'tasks/js/services.js' %}"></script>
 <script src="{% static 'tasks/js/controller.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div ng-app="crowdhub" ng-controller="tasksCtrl">
+</div>
 
 {% endblock %}

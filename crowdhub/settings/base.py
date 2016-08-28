@@ -92,7 +92,6 @@ TEMPLATES = [
         },
     },
 ]
-print TEMPLATES[0]['DIRS']
 
 WSGI_APPLICATION = 'crowdhub.wsgi.application'
 
@@ -102,7 +101,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework_filters.backends.DjangoFilterBackend',
+    ),
 }
 
 

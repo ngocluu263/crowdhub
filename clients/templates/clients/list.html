@@ -1,22 +1,62 @@
 {% extends "crowdhub/base.html" %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'clients/css/style.css' %}" />
+
+<script src="{% static 'clients/js/services.js' %}"></script>
+<script src="{% static 'clients/js/controller_list.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div ng-app="crowdhub" ng-controller="clientsCtrl">
-    <table class="table table-striped">
-        <tr ng-repeat="client in ClientsList">
-            <td>[[client.id]]</td>
-            <td>[[client.name]]</td>
-            <td>[[client.package_name]]</td>
-            <td>[[client.created | date : "dd MM yyyy"]]</td>
-            <td>
-                <a href="/clients/[[client.id]]"><div class='btn btn-primary'>Start</div></a>
-            </td>
-        </tr>
-    </table>
+
+    <div class="row game-icons-holder">
+
+        <div class="col-lg-3 col-lg-offset-2 col-xs-offset-1 col-xs-10">
+            <div class="card">
+                <div class="content">
+                    <div class="header">
+                        Logical
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 game-icon-holder">
+                            <i class="fa fa-puzzle-piece game-icon" aria-hidden="true"></i>
+                            <div class="game-stats">
+                                [[task1.annotations_count]] clicks
+                            </div>
+                        </div>
+                        <div class="col-md-12 game-start-holder">
+                            <a href="/clients/4"><div class='btn btn-primary game-start-button'>Start</div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-lg-offset-2 col-xs-offset-1 col-xs-10">
+            <div class="card">
+                <div class="content">
+                    <div class="header">
+                        Dexterity
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 game-icon-holder">
+                            <i class="fa fa-rocket game-icon" aria-hidden="true"></i>
+                            <div class="game-stats">
+                                [[task2.annotations_count]] clicks
+                            </div>
+                        </div>
+                        <div class="col-md-12 game-start-holder">
+                            <a href="/clients/5"><div class='btn btn-primary game-start-button'>Start</div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
-{% load static %}
-<script src="{% static 'clients/js/services.js' %}"></script>
-<script src="{% static 'clients/js/controller_list.js' %}"></script>
-
-{% endblock %}api/clients/
+{% endblock %}

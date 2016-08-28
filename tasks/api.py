@@ -5,10 +5,10 @@ from tasks.serializers import ProtocolSerializer, TaskSerializer, ItemSerializer
 from tasks.models.base import Protocol, Task
 from tasks.models.data import Item, Annotation
 
-from crowdhub.api import BaseListView, BaseDetailView, BaseCreateListView
+from crowdhub.api import BaseView, BaseListView, BaseDetailView, BaseCreateListView
+from crowdhub.api import filter_get
 
-from utils.helpers import is_json
-import json
+from utils.helpers import is_json, load_json
 
 
 #Protocol
@@ -54,6 +54,14 @@ class TaskDetail(BaseDetailView):
     queryset = Task.objects.all()
 
 
+class TaskStatsDetail(BaseView):
+    def get(self, request, tid):
+        items_count = Task.objects.get(id=tid).items.count()
+        content = {'items_count': items_count}
+        return Response(content)
+
+
+
 #Items
 class TaskItemsList(BaseCreateListView):
     serializer_class = ItemSerializer
@@ -67,7 +75,7 @@ class TaskItemsList(BaseCreateListView):
 
         item_data = request.data['data']
         if is_json(item_data):
-            item = Item(data=json.loads(item_data))
+            item = Item(data=load_json(item_data))
             created_item = task.add_item(item)
             return Response(self.serializer_class(created_item).data, status=status.HTTP_201_CREATED)
         return Response("Wrong format of input data.", status=status.HTTP_400_BAD_REQUEST)
@@ -81,6 +89,14 @@ class TaskItemsDetail(BaseDetailView):
         return Response(self.serializer_class(item).data)
 
 
+class TaskItemsDetailStats(BaseView):
+    def get(self, request, tid, iid):
+        item = Task.objects.get(id=tid).items.get(id=iid)
+        annotations_count = item.annotations.count()
+        content = {'annotations_count': annotations_count}
+        return Response(content)
+
+
 class NextItemDetail(BaseDetailView):
     serializer_class = ItemSerializer
 
@@ -89,23 +105,34 @@ class NextItemDetail(BaseDetailView):
         return Response(self.serializer_class(item).data)
 
 
-#Annotations
 class ItemAnnotationList(BaseCreateListView):
     serializer_class = AnnotationSerializer
+    queryset = Annotation.objects.all()
 
     def get(self, request, tid, iid, *args, **kwargs):
         item = Task.objects.get(id=tid).items.get(id=iid)
-        return Response(self.serializer_class(item.annotations, many=True).data)
+        qs = item.annotations
+        qs = filter_get(qs, request.GET)
+        return Response(self.serializer_class(qs, many=True).data)
 
     def post(self, request, tid, iid, *args, **kwargs):
         item = Task.objects.get(id=tid).items.get(id=iid)
 
-        annotation_data = request.data['data']
-        if is_json(annotation_data):
-            annotation = Annotation(data=json.loads(annotation_data))
-            created_annotation = item.add_annotation(annotation, request.user.id)
-            return Response(self.serializer_class(created_annotation).data, status=status.HTTP_201_CREATED)
-        return Response("Wrong format of input data.", status=status.HTTP_400_BAD_REQUEST)
+        values = {}
+        if "data" in request.data:
+            values['data'] = load_json(request.data['data'])
+        if "id" in request.data:
+            values['id'] = request.data['id']
+        annotation = Annotation(**values)
+
+        result_annotation, created = item.add_annotation(annotation, request.user.id)
+        if result_annotation:
+            if created:
+                return Response(self.serializer_class(result_annotation).data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(self.serializer_class(result_annotation).data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response("Requested object does not exist.", status=status.HTTP_400_BAD_REQUEST)
 
 
 class ItemAnnotationDetail(BaseDetailView):
@@ -115,3 +142,11 @@ class ItemAnnotationDetail(BaseDetailView):
         item = Task.objects.get(id=tid).items.get(id=iid)
         annotation = item.annotations.get(id=aid)
         return Response(self.serializer_class(annotation).data)
+
+
+#obsluzyc set
+#uzyc tego w angularze
+#zrobic podsumowanie na stronie z grami
+#przeniesc na serwer
+#zrobic klienta w unity
+

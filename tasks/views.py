@@ -11,6 +11,5 @@ def tasks_list(request):
 @login_required
 def task_view(request, task_id):
     """Main views of one task"""
-    print "showing task: ", task_id
     return render(request, 'tasks/task.html', {})
 

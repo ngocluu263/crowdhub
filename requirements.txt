@@ -1,3 +1,6 @@
 mongoengine
 djangorestframework
 django-rest-framework-mongoengine
+django-filter
+djangorestframework-filters
+django-crispy-forms

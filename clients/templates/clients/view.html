@@ -1,12 +1,32 @@
 {% extends "crowdhub/base.html" %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'clients/css/style.css' %}" />
+<script src="{% static 'clients/js/services.js' %}"></script>
+<script src="{% static 'clients/js/controller_view.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div ng-app="crowdhub" ng-controller="clientsCtrl">
-    {% include client_index_path %}
+    <div class="col-md-offset-1 col-md-10">
+        <div class="card">
+            <div class="content">
+                <div class="row">
+                    {% if is_embeded %}
+                    {% include client_index_path %}
+                    {% else %}
+                    <iframe class="game-holder" src="/media/{{client_index_path}}"></iframe>
+                    {% endif %}
+                </div>
+                <div class="footer">
+                    <a href="/clients"><div class='btn btn-primary'>Back</div></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-{% load static %}
-<script src="{% static 'clients/js/services.js' %}"></script>
-<script src="{% static 'clients/js/controller_view.js' %}"></script>
 
 {% endblock %}
